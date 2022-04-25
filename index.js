@@ -6,6 +6,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// app.use('/', (req, res, next) => {
+//     res.sendStatus(200);
+//     next();
+// });
+
+// app.use('/sign-up', (req, res, next) => {
+//     res.sendStatus(200);
+//     next();
+// });
+
 let avatarUsuario = "";
 
 const usuarios = [];
@@ -28,23 +38,6 @@ const tweets = [
     }
 ]
 
-
-app.get("/tweets", (req,res) => {
-    let tweetsNovos = [];
-    if (tweets.length > 10) {
-        for (let i = tweets.length-1; i >= tweets.length-10; i--) {
-            tweetsNovos.push(tweets[i]);
-        }
-        res.send(tweetsNovos);
-    }
-    else {
-        for (let i = tweets.length-1; i >= 0; i--) {
-            tweetsNovos.push(tweets[i]);
-        }
-        res.send(tweetsNovos);
-    } 
-})
-
 app.post("/sign-up", (req,res) => {
     let body = req.body;
     avatarUsuario = body.avatar;
@@ -65,6 +58,32 @@ app.post("/tweets", (req,res) => {
     });
     res.send("OK");
 })
+
+app.get("/tweets", (req,res) => {
+    let tweetsNovos = [];
+    if (tweets.length > 10) {
+        for (let i = tweets.length-1; i >= tweets.length-10; i--) {
+            tweetsNovos.push(tweets[i]);
+        }
+        res.send(tweetsNovos);
+    }
+    else {
+        for (let i = tweets.length-1; i >= 0; i--) {
+            tweetsNovos.push(tweets[i]);
+        }
+        res.send(tweetsNovos);
+    } 
+})
+
+app.get("/tweets/:username", (req,res) => {
+    const {username} = req.params;
+    let mensagens = tweets.filter(tweet => {
+        const usuario = tweet.username;
+        return (username === usuario)
+    })
+    console.log(mensagens);
+    res.send(mensagens);
+});
 
 app.listen(5000,() => {
     console.log(chalk.bold.blue("Servidor vivo na porta 5000"));
