@@ -21,5 +21,5 @@ npm i
 ```
 3. Run the back-end with
 ```bash
-npm run dev
+node index.js
 ```
