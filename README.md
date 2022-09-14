@@ -23,3 +23,4 @@ npm i
 ```bash
 node index.js
 ```
+4. Run the front-end inside front-end directory with the Live Server
